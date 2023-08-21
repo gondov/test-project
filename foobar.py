@@ -1,32 +1,20 @@
-from airflow import DAG
-from airflow.operators.bash_operator import BashOperator
-from airflow.contrib.operators.kubernetes_pod_operator import KubernetesPodOperator
-from datetime import datetime
+ENV_ID = os.environ.get("SYSTEM_TESTS_ENV_ID")
+DAG_ID = "postgres_operator_dag"
 
-default_args = {
-    "start_date": datetime(2015, 6, 1),
-    "email_on_failure": False,
-    "email_on_retry": False,
-    "retries": 0,
-}
-
-dag = DAG("foobar", default_args=default_args, schedule_interval=None, catchup=False)
-
-t1 = BashOperator(task_id="foo", bash_command="echo foo", dag=dag)  # Removed xcom_push=True
-t2 = BashOperator(task_id="bar", bash_command="echo bar", dag=dag)
-
-t3 = KubernetesPodOperator(
-    namespace="default",
-    image="busybox",
-    image_pull_policy="IfNotPresent",
-    arguments=["echo", "{{ ti.xcom_pull(task_ids='foo') }}"],
-    name="busybox-test",
-    task_id="pod_foo",
-    is_delete_operator_pod=True,
-    get_logs=True,
-    in_cluster=True,
-    dag=dag,
-)
-
-t2.set_upstream(t1)
-t3.set_upstream(t2)
+with DAG(
+    dag_id=DAG_ID,
+    start_date=datetime.datetime(2020, 2, 2),
+    schedule="@once",
+    catchup=False,
+) as dag:
+    create_pet_table = PostgresOperator(
+        task_id="create_pet_table",
+        sql="""
+            CREATE TABLE IF NOT EXISTS pet (
+            pet_id SERIAL PRIMARY KEY,
+            name VARCHAR NOT NULL,
+            pet_type VARCHAR NOT NULL,
+            birth_date DATE NOT NULL,
+            OWNER VARCHAR NOT NULL);
+          """,
+    )
