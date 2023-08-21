@@ -1,16 +1,32 @@
 from airflow import DAG
 from airflow.operators.bash_operator import BashOperator
+from airflow.contrib.operators.kubernetes_pod_operator import KubernetesPodOperator
 from datetime import datetime
 
 default_args = {
-    'owner': 'airflow',
-    'start_date': datetime(2023, 1, 1),
+    "start_date": datetime(2015, 6, 1),
+    "email_on_failure": False,
+    "email_on_retry": False,
+    "retries": 0,
 }
 
-dag = DAG('my_dag', default_args=default_args, schedule_interval=None)
+dag = DAG("foobar", default_args=default_args, schedule_interval=None, catchup=False)
 
-task = BashOperator(
-    task_id='my_bash_task',
-    bash_command='echo "Hello, World!"',
+t1 = BashOperator(task_id="foo", bash_command="echo foo", dag=dag)  # Removed xcom_push=True
+t2 = BashOperator(task_id="bar", bash_command="echo bar", dag=dag)
+
+t3 = KubernetesPodOperator(
+    namespace="default",
+    image="busybox",
+    image_pull_policy="IfNotPresent",
+    arguments=["echo", "{{ ti.xcom_pull(task_ids='foo') }}"],
+    name="busybox-test",
+    task_id="pod_foo",
+    is_delete_operator_pod=True,
+    get_logs=True,
+    in_cluster=True,
     dag=dag,
 )
+
+t2.set_upstream(t1)
+t3.set_upstream(t2)
