@@ -4,11 +4,8 @@ from airflow.decorators import dag, task
 from airflow.operators.empty import EmptyOperator
  
 
-@dag(
-        schedule = '0 1 * * *',
-        start_date = datetime.date(2021,1,1),
-        catchup=False,
-        tags=["Example"],
+@dag(       
+        start_date=datetime.datetime(2021, 1, 1), schedule="@daily"
 )
 def TEST_ETL():
 
