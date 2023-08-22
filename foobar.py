@@ -23,7 +23,7 @@ def TEST_ETL():
         cur = conn.cursor()
 
         # fetch data
-        fetch_all = "SELECT * FROM omop54.care_site"
+        fetch_all = "SELECT * FROM etl2_cdm.cdm__person;"
         results = cur.execute(fetch_all)
         print(results)
         return(results)
