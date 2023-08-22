@@ -1,44 +1,37 @@
 import psycopg2
-
 import datetime
-
-from airflow.decorators import dag
-
+from airflow.decorators import dag, task
 from airflow.operators.empty import EmptyOperator
-
  
 
-@dag()
-def test_db_conn():
+@dag(
+        schedule = '0 1 * * *',
+        start_date = pendulum.datetime(2021,1,1, tz="UTC"),
+        catchup=False,
+        tags=["Example"],
+)
+def TEST_ETL():
 
-    # connect to the DB
+    @task
+    def test_db_conn():
 
-    conn = psycopg2.connect(
+        # connect to the DB
+        conn = psycopg2.connect(
+            host="172.16.1.18",
+            port=5432,
+            database="etl",
+            user="postgres",
+            password="postgres"
+        )
+        cur = conn.cursor()
 
-        host="172.16.1.18",
+        # fetch data
+        fetch_all = "SELECT * FROM omop54.care_site"
+        results = cur.execute(fetch_all)
+        print(results)
+        return(results)
+    
+    # set variables
+    data = test_db_conn()
 
-        port=5432,
-
-        database="etl",
-
-        user="postgres",
-
-        password="postgres"
-
-    )
-
-    cur = conn.cursor()
-
- 
-
-    # fetch data
-
-    fetch_all = "SELECT * FROM etl2_cdm.cdm__person;"
-
-    results = cur.execute(fetch_all)
-
-    print(results)
-    return(results)
- 
-
-test_db_conn()
+TEST_ETL()
