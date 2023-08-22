@@ -6,7 +6,7 @@ from airflow.operators.empty import EmptyOperator
 
 @dag(
         schedule = '0 1 * * *',
-        
+        start_date = datetime.date(2021,1,1),
         catchup=False,
         tags=["Example"],
 )
