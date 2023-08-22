@@ -38,7 +38,7 @@ def test_db_conn():
     results = cur.execute(fetch_all)
 
     print(results)
-
+    return(results)
  
 
 test_db_conn()
