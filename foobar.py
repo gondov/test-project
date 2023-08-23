@@ -20,7 +20,7 @@ task1 = BashOperator(
 
 # Define the dbt run command as a BashOperator
 task2 = BashOperator(
-    task_id='run_dbt_model',
+    task_id='run_dbt_model2',
     bash_command='k exec -it -n airflow dag-dbt -- dbt run',
     dag=dag
 )
