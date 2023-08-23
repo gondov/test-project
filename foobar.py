@@ -1,34 +1,29 @@
-import psycopg2
-import datetime
-from airflow.decorators import dag, task
-from airflow.operators.empty import EmptyOperator
- 
+# Define the default arguments for the DAG
+from airflow import DAG
+from airflow.operators.bash_operator import BashOperator
+from datetime import datetime, timedelta
+default_args = {
+    'owner': 'airflow',
+    'depends_on_past': False,
+    'start_date': datetime(2023, 5, 1)
+}
 
-@dag(       
-        start_date=datetime.datetime(2021, 1, 1), schedule="@daily"
+# Create the DAG with the specified schedule interval
+dag = DAG('dbt_dag', default_args=default_args)
+
+# Define the dbt run command as a BashOperator
+task1 = BashOperator(
+    task_id='run_dbt_model',
+    bash_command='k exec -it -n airflow dag-dbt -- dbt seed',
+    dag=dag
 )
-def TEST_ETL():
 
-    @task
-    def test_db_conn():
+# Define the dbt run command as a BashOperator
+task2 = BashOperator(
+    task_id='run_dbt_model',
+    bash_command='k exec -it -n airflow dag-dbt -- dbt run',
+    dag=dag
+)
 
-        # connect to the DB
-        conn = psycopg2.connect(
-            host="172.16.1.18",
-            port=5432,
-            database="etl",
-            user="postgres",
-            password="postgres"
-        )
-        cur = conn.cursor()
-
-        # fetch data
-        fetch_all = "SELECT * FROM etl2_cdm.cdm__person;"
-        results = cur.execute(fetch_all)
-        print(results)
-        return(results)
-    
-    # set variables
-    data = test_db_conn()
-
-TEST_ETL()
+# Set task dependencies
+task1 >> task2
