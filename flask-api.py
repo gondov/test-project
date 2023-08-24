@@ -1,27 +1,27 @@
 import flask
-
-import os
-
 import subprocess
+from airflow.decorators import dag, task
+from airflow.utils.dates import days_ago
 
- 
+@dag(
+        schedule = '0 1 * * *',
+        start_date = days_ago(1),
+        catchup=False,
+        tags=["Example"],
 
-# create the Flask app
+)
+def FLASK():
+    @task()
+    def make_flusk():
+        # create the Flask app
+        app = flask.Flask(__name__)
+        # router
+        @app.route('/', methods = ['GET'])
+        def index():
+            subprocess.run(["airflow", "dags", 'test', 'dbt_dag'])
 
-app = flask.Flask(__name__)
+        app.run(host="0.0.0.0", debug=True, port=5555)
 
- 
+    make_flusk()
 
-# router
-
-@app.route('/', methods = ['GET'])
-
-def index():
-
-    subprocess.run(["airflow", "dags", 'test', 'dbt_dag'])
-
- 
-
-if __name__ == '__main__':
-
-    app.run(host="0.0.0.0", debug=True, port=5555)
+FLASK()
