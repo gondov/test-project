@@ -19,7 +19,7 @@ dag = DAG(
     tags=['example'],
 )
 
-image = 'acracdsatatest.azurecr.io/dag-etl2:1.0.0'  # Replace with your ACR image details
+image = 'acracdsatatest.azurecr.io/dag-etl2:1.1.0'  # Replace with your ACR image details
 
 # Define the first task to run "dbt seed"
 task_seed = KubernetesPodOperator(
