@@ -12,7 +12,7 @@ default_args = {
 }
 
 dag = DAG(
-    'dbt_dag',
+    'CDM_to_ARD',
     default_args=default_args,
     schedule_interval=None,  # Set your desired schedule interval
     catchup=False,  # Set to True if you want to backfill
