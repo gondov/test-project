@@ -32,7 +32,7 @@ task1 = KubernetesPodOperator(
     cmds=['dbt', 'seed'],
     get_logs=True,
     dag=dag,
-    pod_template = {"apiVersion": "v1", "kind": "Pod", "metadata": {"name": "test"}, "spec": {}}
+
 )
 
 # Define the second task to run "dbt run"
@@ -44,7 +44,7 @@ task2 = KubernetesPodOperator(
     cmds=['dbt', 'run'],
     get_logs=True,
     dag=dag,
-    pod_template = {"apiVersion": "v1", "kind": "Pod", "metadata": {"name": "test"}, "spec": {}}
+    
 )
 
 # Define the first task to run "dbt seed"
@@ -56,7 +56,7 @@ task3 = KubernetesPodOperator(
     cmds=['dbt', 'seed'],
     get_logs=True,
     dag=dag,
-    pod_template = {"apiVersion": "v1", "kind": "Pod", "metadata": {"name": "test"}, "spec": {}}
+
 )
 
 # Define the second task to run "dbt run"
@@ -68,7 +68,7 @@ task4 = KubernetesPodOperator(
     cmds=['dbt', 'run'],
     get_logs=True,
     dag=dag,
-    pod_template = {"apiVersion": "v1", "kind": "Pod", "metadata": {"name": "test"}, "spec": {}}
+  
 )
 
 # Set task dependencies
