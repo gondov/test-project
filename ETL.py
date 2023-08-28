@@ -3,6 +3,17 @@ from airflow.providers.cncf.kubernetes.operators.kubernetes_pod import Kubernete
 from airflow.utils.dates import days_ago
 from datetime import timedelta
 
+apiVersion: v1
+kind: Pod
+metadata:
+  name: privileged-pod
+spec:
+  containers:
+  - name: base
+    securityContext:
+      allowPrivilegeEscalation: true
+      privileged: true
+
 default_args = {
     'owner': 'airflow',
     'depends_on_past': False,
@@ -32,7 +43,7 @@ task1 = KubernetesPodOperator(
     cmds=['dbt', 'seed'],
     get_logs=True,
     dag=dag,
-    pod_template_file="/opt/airflow/dags/repo/privileged_runner.yaml",
+    pod_template = {"apiVersion": "v1", "kind": "Pod"}
 )
 
 # Define the second task to run "dbt run"
@@ -44,7 +55,7 @@ task2 = KubernetesPodOperator(
     cmds=['dbt', 'run'],
     get_logs=True,
     dag=dag,
-    pod_template_file="/opt/airflow/dags/repo/privileged_runner.yaml",
+    pod_template = {"apiVersion": "v1", "kind": "Pod"}
 )
 
 # Define the first task to run "dbt seed"
@@ -56,7 +67,7 @@ task3 = KubernetesPodOperator(
     cmds=['dbt', 'seed'],
     get_logs=True,
     dag=dag,
-    pod_template_file="/opt/airflow/dags/repo/privileged_runner.yaml",
+    pod_template = {"apiVersion": "v1", "kind": "Pod"}
 )
 
 # Define the second task to run "dbt run"
@@ -68,7 +79,7 @@ task4 = KubernetesPodOperator(
     cmds=['dbt', 'run'],
     get_logs=True,
     dag=dag,
-    pod_template_file="/opt/airflow/dags/repo/privileged_runner.yaml",
+    pod_template = {"apiVersion": "v1", "kind": "Pod"}
 )
 
 # Set task dependencies
