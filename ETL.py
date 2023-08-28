@@ -45,6 +45,7 @@ task1 = KubernetesPodOperator(
     cmds=['dbt', 'seed'],
     get_logs=True,
     dag=dag,
+    pod=pod
 
 )
 
@@ -57,6 +58,7 @@ task2 = KubernetesPodOperator(
     cmds=['dbt', 'run'],
     get_logs=True,
     dag=dag,
+    pod=pod
     
 )
 
@@ -69,6 +71,7 @@ task3 = KubernetesPodOperator(
     cmds=['dbt', 'seed'],
     get_logs=True,
     dag=dag,
+    pod=pod
 
 )
 
@@ -81,6 +84,7 @@ task4 = KubernetesPodOperator(
     cmds=['dbt', 'run'],
     get_logs=True,
     dag=dag,
+    pod=pod
   
 )
 
