@@ -32,7 +32,7 @@ task1 = KubernetesPodOperator(
     cmds=['dbt', 'seed'],
     get_logs=True,
     dag=dag,
-    pod_template_file="/opt/airflow/dags/privileged_runner.yaml",
+    #pod_template_file="/opt/airflow/dags/privileged_runner.yaml",
 )
 
 # Define the second task to run "dbt run"
@@ -44,7 +44,7 @@ task2 = KubernetesPodOperator(
     cmds=['dbt', 'run'],
     get_logs=True,
     dag=dag,
-    pod_template_file="/opt/airflow/dags/privileged_runner.yaml",
+    #pod_template_file="/opt/airflow/dags/privileged_runner.yaml",
 )
 
 # Define the first task to run "dbt seed"
@@ -56,7 +56,7 @@ task3 = KubernetesPodOperator(
     cmds=['dbt', 'seed'],
     get_logs=True,
     dag=dag,
-    pod_template_file="/opt/airflow/dags/privileged_runner.yaml",
+    #pod_template_file="/opt/airflow/dags/privileged_runner.yaml",
 )
 
 # Define the second task to run "dbt run"
@@ -68,7 +68,7 @@ task4 = KubernetesPodOperator(
     cmds=['dbt', 'run'],
     get_logs=True,
     dag=dag,
-    pod_template_file="/opt/airflow/dags/privileged_runner.yaml",
+    #pod_template_file="/opt/airflow/dags/privileged_runner.yaml",
 )
 
 # Set task dependencies
