@@ -4,16 +4,34 @@ from airflow.utils.dates import days_ago
 from datetime import timedelta
 from kubernetes.client import V1Pod, V1Container
 
-# Define your V1Pod object
-pod = V1Pod(
-    spec={
-        "containers": [
-            V1Container(
-                name="your-container1",               
-            )
-        ]
-    }
-)
+
+ {'pod': {'api_version': None,
+                              |  'kind': None,
+                              |  'metadata': None,
+                              |  'spec': {'containers': [{'args': None,
+                              |  'command': None,
+                              |  'env': None,
+                              |  'env_from': None,
+                              |  'image': None,
+                              |  'image_pull_policy': None,
+                              |  'lifecycle': None,
+                              |  'liveness_probe': None,
+                              |  'name': 'your-container1',
+                              |  'ports': None,
+                              |  'readiness_probe': None,
+                              |  'resources': None,
+                              |  'security_context': None,
+                              |  'startup_probe': None,
+                              |  'stdin': None,
+                              |  'stdin_once': None,
+                              |  'termination_message_path': None,
+                              |  'termination_message_policy': None,
+                              |  'tty': None,
+                              |  'volume_devices': None,
+                              |  'volume_mounts': None,
+                              |  'working_dir': None}]},
+                              |  'status': None}}
+
 
 
 default_args = {
