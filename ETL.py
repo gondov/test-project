@@ -2,6 +2,19 @@ from airflow import DAG
 from airflow.providers.cncf.kubernetes.operators.kubernetes_pod import KubernetesPodOperator
 from airflow.utils.dates import days_ago
 from datetime import timedelta
+from kubernetes.client import V1Pod, V1Container
+
+# Define your V1Pod object
+pod = V1Pod(
+    spec={
+        "containers": [
+            V1Container(
+                name="your-container1",               
+            )
+        ]
+    }
+)
+
 
 default_args = {
     'owner': 'airflow',
