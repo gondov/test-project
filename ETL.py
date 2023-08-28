@@ -4,36 +4,6 @@ from airflow.utils.dates import days_ago
 from datetime import timedelta
 from kubernetes.client import V1Pod, V1Container
 
-
- {'pod': {'api_version': None,
-                              |  'kind': None,
-                              |  'metadata': None,
-                              |  'spec': {'containers': [{'args': None,
-                              |  'command': None,
-                              |  'env': None,
-                              |  'env_from': None,
-                              |  'image': None,
-                              |  'image_pull_policy': None,
-                              |  'lifecycle': None,
-                              |  'liveness_probe': None,
-                              |  'name': 'your-container1',
-                              |  'ports': None,
-                              |  'readiness_probe': None,
-                              |  'resources': None,
-                              |  'security_context': None,
-                              |  'startup_probe': None,
-                              |  'stdin': None,
-                              |  'stdin_once': None,
-                              |  'termination_message_path': None,
-                              |  'termination_message_policy': None,
-                              |  'tty': None,
-                              |  'volume_devices': None,
-                              |  'volume_mounts': None,
-                              |  'working_dir': None}]},
-                              |  'status': None}}
-
-
-
 default_args = {
     'owner': 'airflow',
     'depends_on_past': False,
@@ -62,9 +32,8 @@ task1 = KubernetesPodOperator(
     image=image1,
     cmds=['dbt', 'seed'],
     get_logs=True,
-    dag=dag,
-    pod=pod
-
+    pod_template_file = None,
+    dag=dag
 )
 
 # Define the second task to run "dbt run"
@@ -75,9 +44,8 @@ task2 = KubernetesPodOperator(
     image=image1,
     cmds=['dbt', 'run'],
     get_logs=True,
-    dag=dag,
-    pod=pod
-    
+    pod_template_file = None,
+    dag=dag
 )
 
 # Define the first task to run "dbt seed"
@@ -88,9 +56,8 @@ task3 = KubernetesPodOperator(
     image=image2,
     cmds=['dbt', 'seed'],
     get_logs=True,
-    dag=dag,
-    pod=pod
-
+    pod_template_file = None,
+    dag=dag
 )
 
 # Define the second task to run "dbt run"
@@ -101,9 +68,8 @@ task4 = KubernetesPodOperator(
     image=image2,
     cmds=['dbt', 'run'],
     get_logs=True,
-    dag=dag,
-    pod=pod
-  
+    pod_template_file = None,
+    dag=dag
 )
 
 # Set task dependencies
