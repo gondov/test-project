@@ -34,7 +34,7 @@ task1 = KubernetesPodOperator(
     get_logs=True,
     pod_template_file = None,
     dag=dag,
-    is_delete_operator_pod=True,
+   
 )
 
 # Define the second task to run "dbt run"
@@ -47,7 +47,7 @@ task2 = KubernetesPodOperator(
     get_logs=True,
     pod_template_file = None,
     dag=dag,
-    is_delete_operator_pod=True,
+    
 )
 
 # Define the first task to run "dbt seed"
@@ -60,7 +60,7 @@ task3 = KubernetesPodOperator(
     get_logs=True,
     pod_template_file = None,
     dag=dag,
-    is_delete_operator_pod=True,
+    
 )
 
 # Define the second task to run "dbt run"
@@ -73,7 +73,7 @@ task4 = KubernetesPodOperator(
     get_logs=True,
     pod_template_file = None,
     dag=dag,
-    is_delete_operator_pod=True,
+    
 )
 
 # Set task dependencies
