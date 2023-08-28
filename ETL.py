@@ -34,7 +34,6 @@ task1 = KubernetesPodOperator(
     get_logs=True,
     pod_template_file = None,
     dag=dag,
-    get_logs=True,
     is_delete_operator_pod=True,
 )
 
@@ -48,7 +47,6 @@ task2 = KubernetesPodOperator(
     get_logs=True,
     pod_template_file = None,
     dag=dag,
-    get_logs=True,
     is_delete_operator_pod=True,
 )
 
@@ -62,7 +60,6 @@ task3 = KubernetesPodOperator(
     get_logs=True,
     pod_template_file = None,
     dag=dag,
-    get_logs=True,
     is_delete_operator_pod=True,
 )
 
@@ -76,7 +73,6 @@ task4 = KubernetesPodOperator(
     get_logs=True,
     pod_template_file = None,
     dag=dag,
-    get_logs=True,
     is_delete_operator_pod=True,
 )
 
