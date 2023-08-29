@@ -13,7 +13,7 @@ default_args = {
 }
 
 dag = DAG(
-    'ETL',
+    'ETL.py',
     default_args=default_args,
     schedule_interval=None,  # Set your desired schedule interval
     catchup=False,  # Set to True if you want to backfill
